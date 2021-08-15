@@ -116,7 +116,7 @@ export default function Sidebar({ user, page }) {
           activeClassName="sidebar__menu--selected"
         >
           <div className="sidebar__menu--home">
-            <Home />
+            <Home style={{ fill: 'purple' }} />
             <div className="sidebar__menu--line" />
           </div>
         </Nav>
@@ -127,7 +127,7 @@ export default function Sidebar({ user, page }) {
           activeClassName="sidebar__menu--selected"
         >
           <div className="sidebar__menu--rooms">
-            <Message />
+            <Message style={{ fill: 'purple' }} />
             <div className="sidebar__menu--line" />
           </div>
         </Nav>
@@ -138,7 +138,7 @@ export default function Sidebar({ user, page }) {
           activeClassName="sidebar__menu--selected"
         >
           <div className="sidebar__menu--users">
-            <PeopleAlt />
+            <PeopleAlt style={{ fill: 'purple' }} />
             <div className="sidebar__menu--line" />
           </div>
         </Nav>
@@ -171,7 +171,7 @@ export default function Sidebar({ user, page }) {
 
       <div className="sidebar__chat--addRoom">
         <IconButton onClick={createRoom}>
-          <Add style={{ color: 'white' }} />
+          <Add />
         </IconButton>
       </div>
     </div>

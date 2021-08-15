@@ -35,9 +35,10 @@
 }
 
 .chat__background {
-  background-image: url("https://web.whatsapp.com/img/bg-chat-tile-light_686b98c9fdffef3f63127759e2057750.png");
-  background-size: contain;
+  background-image: url('https://res.cloudinary.com/dm89xfnl4/image/upload/e_grayscale/v1629048307/shutterstock_747670780_sfhqvp.jpg');
+  background-size: 200px;
   background-position: center;
+  background-repeat: repeat;
   position: absolute;
   width: 100%;
   height: 100%;
