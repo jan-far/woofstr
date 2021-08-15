@@ -130,6 +130,16 @@
   position: relative;
 }
 
+.sidebar__chat--addRoom {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #800080;
+  border-radius: 50%;
+  box-shadow: 2px 3px 5px #888888;
+  margin: 16px;
+}
+
 .side {
   transform: scale(1) !important;
 }
