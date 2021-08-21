@@ -69,7 +69,7 @@ export default function Sidebar({ user, page }) {
   } else {
     Nav = (props) => (
       <div
-        className={`${props.activeClass ? 'sidebar__menu--selected' : ''}`}
+        className={`${props.isactiveclass ? 'sidebar__menu--selected' : ''}`}
         onClick={props.onClick}
       >
         {props.children}
@@ -112,7 +112,7 @@ export default function Sidebar({ user, page }) {
         <Nav
           to="/chats"
           onClick={() => setMenu(1)}
-          activeClass={menu === 1}
+          isactiveclass={menu === 1}
           activeClassName="sidebar__menu--selected"
         >
           <div className="sidebar__menu--home">
@@ -123,7 +123,7 @@ export default function Sidebar({ user, page }) {
         <Nav
           to="/rooms"
           onClick={() => setMenu(2)}
-          activeClass={menu === 2}
+          isactiveclass={menu === 2}
           activeClassName="sidebar__menu--selected"
         >
           <div className="sidebar__menu--rooms">
@@ -134,7 +134,7 @@ export default function Sidebar({ user, page }) {
         <Nav
           to="/users"
           onClick={() => setMenu(3)}
-          activeClass={menu === 3}
+          isactiveclass={menu === 3}
           activeClassName="sidebar__menu--selected"
         >
           <div className="sidebar__menu--users">
