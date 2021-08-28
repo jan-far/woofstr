@@ -29,7 +29,7 @@ export default function SidebarList({ title, data }) {
     <div className="sidebar__chat--container">
       <h2>{title}</h2>
       {data.map((item) => (
-        <SidebarListItem key={item.id} item={item} />
+        <SidebarListItem title={title} key={item.id} item={item} />
       ))}
     </div>
   );

@@ -1,7 +1,7 @@
 import { Avatar } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-export default function SidebarListItem({ item }) {
+export default function SidebarListItem({ title, item }) {
   return (
     <Link to={`/room/${item.id}`} className="link">
       <div className="sidebar__chat">
@@ -9,8 +9,9 @@ export default function SidebarListItem({ item }) {
           <Avatar
             style={{ width: 45, height: 45 }}
             src={
-              item.photoURL ||
-              `https://avatars.dicebear.com/api/human/${item.id}.svg`
+              item.photoURL || title === 'Rooms'
+                ? `https://ui-avatars.com/api/?name=${item.name}&length=3&background=800080&color=fff`
+                : `https://avatars.dicebear.com/api/human/${item.id}.svg`
             }
           />
         </div>

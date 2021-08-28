@@ -11,7 +11,7 @@ export default function Login() {
     <div className="app">
       <div className="login">
         <div className="login__container">
-          <img src="./login-logo.png" alt="Logo" />
+          <img src="../login-logo.png" alt="Logo" />
           <div className="login__text">
             <h3>Sign In</h3>
           </div>
