@@ -16,10 +16,6 @@ export default function useChatMessages(roomID) {
     id: doc.id,
     ...doc.data(),
   }));
-  console.log(
-    '🚀 ~ file: useChatMessages.js ~ line 19 ~ messages ~ messages',
-    messages
-  );
 
   return messages;
 }

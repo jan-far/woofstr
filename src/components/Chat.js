@@ -28,6 +28,7 @@ export default function Chat({ user, page }) {
 
   async function sendMessage(event) {
     event.preventDefault();
+    var sound = new Audio('../../notification.wav');
     if (input.trim() || (input === '' && image)) {
       setInput('');
 
@@ -88,6 +89,7 @@ export default function Chat({ user, page }) {
           },
         });
       }
+      sound.play();
     }
   }
 
@@ -118,7 +120,9 @@ export default function Chat({ user, page }) {
           </IconButton>
         )}
         <div className="avatar__container">
-          <Avatar src={room?.photoURL} />
+          <Avatar
+            src={`https://ui-avatars.com/api/?name=${room?.name}&length=3&background=800080&color=fff`}
+          />
         </div>
         <div className="chat__header--info">
           <h3 style={{ width: page.isMobile && page.width - 165 }}>

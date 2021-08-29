@@ -9,9 +9,10 @@ export default function SidebarListItem({ title, item }) {
           <Avatar
             style={{ width: 45, height: 45 }}
             src={
-              item.photoURL || title === 'Rooms'
+              item.photoUrl ||
+              (title === 'Rooms' || title === 'Chats'
                 ? `https://ui-avatars.com/api/?name=${item.name}&length=3&background=800080&color=fff`
-                : `https://avatars.dicebear.com/api/human/${item.id}.svg`
+                : `https://avatars.dicebear.com/api/human/${item.name}.svg`)
             }
           />
         </div>
