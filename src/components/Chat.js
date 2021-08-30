@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ChatMessages from './ChatMessages';
 import ChatFooter from './ChatFooter';
 import MediaPreview from './MediaPreview';
@@ -16,11 +16,20 @@ export default function Chat({ user, page }) {
   const [image, setImage] = useState(null);
   const [input, setInput] = useState('');
   const [previewSrc, setPreviewSrc] = useState('');
+  const [audioID, setAudioID] = useState('');
 
   const { roomID } = useParams();
   const history = useHistory();
   const messages = useChatMessages(roomID);
   const room = useRoom(roomID, user.uid);
+
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    divRef?.current?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  });
 
   function onChange(event) {
     setInput(event.target.value);
@@ -31,6 +40,7 @@ export default function Chat({ user, page }) {
     var sound = new Audio('../../notification.wav');
     if (input.trim() || (input === '' && image)) {
       setInput('');
+      sound.play();
 
       if (image) {
         closePreview();
@@ -89,7 +99,6 @@ export default function Chat({ user, page }) {
           },
         });
       }
-      sound.play();
     }
   }
 
@@ -153,6 +162,7 @@ export default function Chat({ user, page }) {
       <div className="chat__body--container">
         <div className="chat__body" style={{ height: page.height - 68 }}>
           <ChatMessages messages={messages} user={user} roomID={roomID} />
+          <div ref={divRef} />
         </div>
       </div>
       <MediaPreview src={previewSrc} closePreview={closePreview} />
@@ -163,6 +173,7 @@ export default function Chat({ user, page }) {
         image={image}
         room={room}
         roomID={roomID}
+        setAudioID={setAudioID}
       />
     </div>
   );

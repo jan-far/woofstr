@@ -16,7 +16,6 @@ var firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
-console.log('🚀 ~ file: firebase.js ~ line 19 ~ db', db);
 const auth = firebaseApp.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 const storage = firebase.storage().ref('images');

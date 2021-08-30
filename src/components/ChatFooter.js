@@ -4,8 +4,9 @@ import {
   MicRounded,
   Send,
 } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './ChatFooter.css';
+import recordAudio from './recordAudio';
 
 export default function ChatFooter({
   input,
@@ -15,9 +16,11 @@ export default function ChatFooter({
   user,
   room,
   roomID,
+  setAudioID,
 }) {
   const [isRecording, setIsRecording] = useState(false);
-
+  const recordingEl = useRef();
+  const record = useRef();
   const buttonIcons = (
     <>
       <Send
@@ -38,6 +41,23 @@ export default function ChatFooter({
   );
 
   const canRecord = navigator.mediaDevices.getUserMedia && window.MediaRecorder;
+  const inputRef = useRef();
+
+  async function startRecording(event) {
+    event.preventDefault();
+    record.current = await recordAudio();
+    inputRef.current.focus();
+    inputRef.current.style.width = 'calc(100% - 56px)';
+    setIsRecording(true);
+    setAudioID('');
+  }
+
+  useEffect(() => {
+    if (isRecording) {
+      recordingEl.current.style.opacity = '1';
+      record.current.start();
+    }
+  }, [isRecording]);
 
   return (
     <div className="chat__footer">
@@ -46,6 +66,7 @@ export default function ChatFooter({
           value={input}
           onChange={!isRecording ? onChange : null}
           placeholder="Type a message"
+          ref={inputRef}
         />
 
         {canRecord ? (
@@ -55,7 +76,7 @@ export default function ChatFooter({
             onClick={
               input.trim() || (input === '' && image)
                 ? sendMessage
-                : () => false
+                : startRecording
             }
           >
             {buttonIcons}
@@ -76,7 +97,7 @@ export default function ChatFooter({
         )}
       </form>
       {isRecording && (
-        <div className="record">
+        <div ref={recordingEl} className="record">
           <CancelRounded
             style={{
               width: 30,

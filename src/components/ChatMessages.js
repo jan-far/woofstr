@@ -1,21 +1,13 @@
-import React, { useRef, useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core';
 import AudioPlayer from './AudioPlayer';
 
 export default function ChatMessages({ messages, user, roomID }) {
-  const divRef = useRef(null);
-
-  useEffect(() => {
-    divRef?.current?.scrollIntoView({ behavior: 'smooth' });
-  });
-
   if (messages) {
     return messages.map((message) => {
       const isSender = message.uid === user.uid;
 
       return (
         <div
-          ref={divRef}
           key={message.id}
           className={`chat__message ${isSender ? 'chat__message--sender' : ''}`}
         >
