@@ -29,7 +29,7 @@ export default function Chat({ user, page }) {
     divRef?.current?.scrollIntoView({
       behavior: 'smooth',
     });
-  });
+  }, [messages]);
 
   function onChange(event) {
     setInput(event.target.value);
