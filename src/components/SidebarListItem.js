@@ -10,7 +10,9 @@ export default function SidebarListItem({ title, item }) {
             style={{ width: 45, height: 45 }}
             src={
               item.photoUrl ||
-              (title === 'Rooms' || title === 'All Chats'
+              (title === 'Rooms' ||
+              title === 'All Chats' ||
+              title === 'Search Results'
                 ? `https://ui-avatars.com/api/?name=${item.name}&length=3&background=800080&color=fff`
                 : `https://avatars.dicebear.com/api/human/${item.name}.svg`)
             }
