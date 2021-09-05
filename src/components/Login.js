@@ -18,7 +18,7 @@ export default function Login() {
         }}
       >
         <div className="login__container">
-          <h3></h3> <img src="../login-logo.png" alt="Logo" />
+          <img src="../login-logo.png" alt="Logo" />
           <div>
             <h3>Chat with Dog Owners near You</h3>
           </div>
