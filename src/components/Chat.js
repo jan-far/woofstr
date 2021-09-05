@@ -3,20 +3,28 @@ import ChatMessages from './ChatMessages';
 import ChatFooter from './ChatFooter';
 import MediaPreview from './MediaPreview';
 import Compressor from 'compressorjs';
-import { Avatar, IconButton, Menu, MenuItem } from '@material-ui/core';
+import {
+  Avatar,
+  CircularProgress,
+  IconButton,
+  Menu,
+  MenuItem,
+} from '@material-ui/core';
 import { AddPhotoAlternate, ArrowBack, MoreVert } from '@material-ui/icons';
 import { useHistory, useParams } from 'react-router-dom';
 import useRoom from '../hooks/useRoom';
 import useChatMessages from '../hooks/useChatMessages';
 import './Chat.css';
 import { v4 as uuid } from 'uuid';
-import { createTimestamp, db, storage } from '../firebase';
+import { audioStorage, createTimestamp, db, storage } from '../firebase';
 
 export default function Chat({ user, page }) {
   const [image, setImage] = useState(null);
   const [input, setInput] = useState('');
   const [previewSrc, setPreviewSrc] = useState('');
   const [audioID, setAudioID] = useState('');
+  const [openMenu, setOpenMenu] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { roomID } = useParams();
   const history = useHistory();
@@ -122,6 +130,41 @@ export default function Chat({ user, page }) {
     setImage(null);
   }
 
+  async function deleteRoom() {
+    setOpenMenu(false);
+    setIsDeleting(true);
+    try {
+      const roomRef = db.collection('rooms').doc(roomID);
+      const roomMessages = await roomRef.collection('messages').get();
+      const audioFiles = [];
+      const imageFiles = [];
+      roomMessages.docs.forEach((doc) => {
+        if (doc.data().audioName) {
+          audioFiles.push(doc.data().audioName);
+        } else if (doc.data().imageName) {
+          imageFiles.push(doc.data().imageName);
+        }
+      });
+      await Promise.all([
+        ...roomMessages.docs.map((doc) => doc.ref.delete()),
+        ...imageFiles.map((image) => storage.child(image).delete()),
+        ...audioFiles.map((audio) => audioStorage.child(audio).delete()),
+        db
+          .collection('users')
+          .doc(user.uid)
+          .collection('chats')
+          .doc(roomID)
+          .delete(),
+        roomRef.delete(),
+      ]);
+    } catch (error) {
+      console.error('Error deleting room: ', error.message);
+    } finally {
+      setIsDeleting(false);
+      page.isMobile ? history.goBack() : history.replace('/chats');
+    }
+  }
+
   return (
     <div className="chat">
       <div style={{ height: page.height }} className="chat__background"></div>
@@ -154,11 +197,17 @@ export default function Chat({ user, page }) {
               <AddPhotoAlternate />
             </label>
           </IconButton>
-          <IconButton>
+          <IconButton onClick={(event) => setOpenMenu(event.currentTarget)}>
             <MoreVert />
           </IconButton>
-          <Menu id="menu" keepMounted open={false}>
-            <MenuItem>Delete Room</MenuItem>
+          <Menu
+            anchorEl={openMenu}
+            id="menu"
+            keepMounted
+            open={Boolean(openMenu)}
+            onClose={() => setOpenMenu(null)}
+          >
+            <MenuItem onClick={deleteRoom}>Delete Room</MenuItem>
           </Menu>
         </div>
       </div>
@@ -185,6 +234,11 @@ export default function Chat({ user, page }) {
         setAudioID={setAudioID}
         user={user}
       />
+      {isDeleting && (
+        <div className="chat__deleting">
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
 }
