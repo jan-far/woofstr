@@ -22,13 +22,16 @@ export default function Chat({ user, page }) {
   const history = useHistory();
   const messages = useChatMessages(roomID);
   const room = useRoom(roomID, user.uid);
-
   const divRef = useRef(null);
 
-  useEffect(() => {
+  function scrollToBottom() {
     divRef?.current?.scrollIntoView({
       behavior: 'smooth',
     });
+  }
+
+  useEffect(() => {
+    scrollToBottom();
   }, [messages]);
 
   function onChange(event) {

@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core';
 import './Login.css';
 import { auth, provider } from '../firebase';
+import BackgroundImage from '../bg02.jpg';
 
 export default function Login() {
   function login() {
@@ -9,11 +10,17 @@ export default function Login() {
 
   return (
     <div className="app">
-      <div className="login">
+      <div
+        className="login"
+        style={{
+          backgroundImage: `url(${BackgroundImage})`,
+          backgroundPosition: 'center',
+        }}
+      >
         <div className="login__container">
-          <img src="../login-logo.png" alt="Logo" />
-          <div className="login__text">
-            <h3>Sign In</h3>
+          <h3></h3> <img src="../login-logo.png" alt="Logo" />
+          <div>
+            <h3>Chat with Dog Owners near You</h3>
           </div>
           <Button onClick={login}>Sign in with Google</Button>
         </div>
