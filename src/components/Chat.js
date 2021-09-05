@@ -160,7 +160,7 @@ export default function Chat({ user, page }) {
         </div>
       </div>
       <div className="chat__body--container">
-        <div className="chat__body" style={{ height: page.height - 68 }}>
+        <div className="chat__body" style={{ height: page.height - 168 }}>
           <ChatMessages
             messages={messages}
             user={user}
