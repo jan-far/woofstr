@@ -24,6 +24,7 @@ export default function ChatFooter({
   const [duration, setDuration] = useState('00:00');
   const recordingEl = useRef();
   const record = useRef();
+
   const buttonIcons = (
     <>
       <Send
@@ -37,6 +38,25 @@ export default function ChatFooter({
         style={{
           width: 24,
           height: 24,
+          color: 'white',
+        }}
+      />
+    </>
+  );
+
+  const buttonIconsTwo = (
+    <>
+      <MicRounded
+        style={{
+          width: 24,
+          height: 24,
+          color: 'white',
+        }}
+      />
+      <Send
+        style={{
+          width: 20,
+          height: 20,
           color: 'white',
         }}
       />
@@ -165,7 +185,10 @@ export default function ChatFooter({
                 : startRecording
             }
           >
-            {buttonIcons}
+            {input.trim() || (input === '' && image)
+              ? buttonIconsTwo
+              : buttonIcons}
+            {}
           </button>
         ) : (
           <>
