@@ -51,11 +51,6 @@ export default function Sidebar({ user, page }) {
       .get();
     const userResults = userSnapshot.docs
       .map((doc) => {
-        console.log(
-          '🚀 ~ file: Sidebar.js ~ line 57 ~ userResults ~ ...doc.data()',
-          doc.data()
-        );
-        console.log('USER: ', user);
         return {
           id: doc.id,
           ...doc.data(),
