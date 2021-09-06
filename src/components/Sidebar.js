@@ -49,12 +49,19 @@ export default function Sidebar({ user, page }) {
       .collection('rooms')
       .where('name', '==', query)
       .get();
-    const userResults = userSnapshot.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      };
-    });
+    const userResults = userSnapshot.docs
+      .map((doc) => {
+        console.log(
+          '🚀 ~ file: Sidebar.js ~ line 57 ~ userResults ~ ...doc.data()',
+          doc.data()
+        );
+        console.log('USER: ', user);
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      })
+      .filter((foundUser) => foundUser.uid !== user.uid);
     const roomResults = roomSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),

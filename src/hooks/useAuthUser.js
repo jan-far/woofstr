@@ -14,6 +14,7 @@ export default function useAuthUser() {
             name: user.displayName,
             photoUrl: user.photoURL,
             timestamp: createTimestamp(),
+            uid: user.uid,
           });
         }
       });
