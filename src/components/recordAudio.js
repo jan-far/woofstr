@@ -3,7 +3,11 @@ import { v4 as uuid } from 'uuid';
 export default function recordAudio() {
   return new Promise((resolve) => {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      const mediaRecorder = new MediaRecorder(stream);
+      const options = {
+        audioBitsPerSecond: 128000,
+        mimeType: 'audio/webm',
+      };
+      const mediaRecorder = new MediaRecorder(stream, options);
       const audioChunks = [];
 
       mediaRecorder.addEventListener('dataavailable', (event) => {
