@@ -2,6 +2,7 @@ import { CircularProgress } from '@material-ui/core';
 import { PauseRounded, PlayArrowRounded } from '@material-ui/icons';
 import React, { useState, useRef, useEffect } from 'react';
 import './AudioPlayer.css';
+import ReactAudioPlayer from 'react-audio-player';
 
 export default function AudioPlayer({
   audioID,
@@ -135,7 +136,8 @@ export default function AudioPlayer({
   return (
     <>
       <div className={`audioplayer ${sender ? '' : 'audioplayer__alt'}`}>
-        {!isMediaLoaded ? (
+        <ReactAudioPlayer src={audioUrl} controls />
+        {/* {!isMediaLoaded ? (
           <CircularProgress />
         ) : isPlaying ? (
           <PauseRounded className="pause" onClick={stopAudio} />
@@ -155,7 +157,7 @@ export default function AudioPlayer({
             className="audioplayer__slider"
             onChange={scrubAudio}
           />
-        </div>
+        </div> */}
       </div>
       <span className="chat__timestamp audioplayer__time">{duration}</span>
     </>
