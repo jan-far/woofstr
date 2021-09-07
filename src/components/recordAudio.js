@@ -4,7 +4,6 @@ export default function recordAudio() {
   return new Promise((resolve) => {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const options = {
-        audioBitsPerSecond: 128000,
         mimeType: 'audio/webm;codecs=opus',
       };
       const mediaRecorder = new MediaRecorder(stream, options);
