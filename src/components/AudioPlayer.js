@@ -137,7 +137,7 @@ export default function AudioPlayer({
   return (
     <>
       <div className={`audioplayer ${sender ? '' : 'audioplayer__alt'}`}>
-        <ReactAudioPlayer src={audioUrl} controls />
+        {audioUrl ? <ReactAudioPlayer src={audioUrl} controls /> : null}
         {/* {!isMediaLoaded ? (
           <CircularProgress />
         ) : isPlaying ? (
