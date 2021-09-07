@@ -116,7 +116,7 @@ export default function Sidebar({ user, page }) {
         <Nav
           to="/chats"
           onClick={() => setMenu(1)}
-          isactiveclass={menu === 1 ? 'true' : 'false'}
+          isactiveclass={menu === 1 ? true : false}
           activeClassName="sidebar__menu--selected"
         >
           <div className="sidebar__menu--home">
@@ -127,7 +127,7 @@ export default function Sidebar({ user, page }) {
         <Nav
           to="/rooms"
           onClick={() => setMenu(2)}
-          isactiveclass={menu === 2 ? 'true' : 'false'}
+          isactiveclass={menu === 2 ? true : false}
           activeClassName="sidebar__menu--selected"
         >
           <div className="sidebar__menu--rooms">
@@ -138,7 +138,7 @@ export default function Sidebar({ user, page }) {
         <Nav
           to="/users"
           onClick={() => setMenu(3)}
-          isactiveclass={menu === 3 ? 'true' : 'false'}
+          isactiveclass={menu === 3 ? true : false}
           activeClassName="sidebar__menu--selected"
         >
           <div className="sidebar__menu--users">
