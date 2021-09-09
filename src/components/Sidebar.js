@@ -173,11 +173,13 @@ export default function Sidebar({ user, page }) {
         <SidebarList title="Search Results" data={searchResults} />
       ) : null}
 
-      <div className="sidebar__chat--addRoom">
-        <IconButton onClick={createRoom}>
-          <Add />
-        </IconButton>
-      </div>
+      {menu === 2 ? (
+        <div className="sidebar__chat--addRoom">
+          <IconButton onClick={createRoom}>
+            <Add />
+          </IconButton>
+        </div>
+      ) : null}
     </div>
   );
 }
