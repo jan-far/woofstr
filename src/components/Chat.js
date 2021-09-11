@@ -10,10 +10,17 @@ import {
   Menu,
   MenuItem,
 } from '@material-ui/core';
-import { AddPhotoAlternate, ArrowBack, MoreVert } from '@material-ui/icons';
+import {
+  AddPhotoAlternate,
+  AddLocation,
+  ArrowBack,
+  MoreVert,
+} from '@material-ui/icons';
 import { useHistory, useParams } from 'react-router-dom';
+import axios from 'axios';
 import useRoom from '../hooks/useRoom';
 import useChatMessages from '../hooks/useChatMessages';
+import { useGeoLocation } from '../hooks/useGeoLocation';
 import './Chat.css';
 import { v4 as uuid } from 'uuid';
 import { audioStorage, createTimestamp, db, storage } from '../firebase';
@@ -25,6 +32,7 @@ export default function Chat({ user, page }) {
   const [audioID, setAudioID] = useState('');
   const [openMenu, setOpenMenu] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [location, setLocation] = useState(null);
 
   const { roomID } = useParams();
   const history = useHistory();
@@ -40,7 +48,13 @@ export default function Chat({ user, page }) {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, []);
+
+  const geoLocation = useGeoLocation();
+
+  // useEffect(() => {
+  //   setLocation(geoLocation);
+  // }, [geoLocation]);
 
   function onChange(event) {
     setInput(event.target.value);
@@ -165,6 +179,31 @@ export default function Chat({ user, page }) {
     }
   }
 
+  function previewLocation(event) {
+    event.preventDefault();
+
+    // will only work in localhost:3000:
+    const MAPBOX_API_KEY =
+      'pk.eyJ1IjoiYnViYmFzZGFkIiwiYSI6ImNrdGZ2bGV4NDBjMWgycHJ0cDE1Z3A2OW4ifQ.lHwOcjL8X-YucjD_U6jt3Q';
+    const baseUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson(%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B${geoLocation.longitude}%2C${geoLocation.latitude}%5D%7D)/${geoLocation.longitude},${geoLocation.latitude},15/500x300?access_token=${MAPBOX_API_KEY}`;
+
+    axios
+      .get(baseUrl)
+      .then((response) => {
+        console.log(
+          '🚀 ~ file: Chat.js ~ line 192 ~ .then ~ response',
+          response
+        );
+        let myImage = new Image();
+        myImage.src = baseUrl;
+        setImage(myImage);
+        setPreviewSrc(response.config.url);
+      })
+      .catch(function (error) {
+        console.error('error fetching map: ', error);
+      });
+  }
+
   return (
     <div className="chat">
       <div style={{ height: page.height }} className="chat__background"></div>
@@ -192,6 +231,11 @@ export default function Chat({ user, page }) {
             accept="image/*"
             onChange={showPreview}
           />
+          <IconButton onClick={previewLocation}>
+            <label style={{ cursor: 'pointer', height: 24 }} htmlFor="image">
+              <AddLocation />
+            </label>
+          </IconButton>
           <IconButton>
             <label style={{ cursor: 'pointer', height: 24 }} htmlFor="image">
               <AddPhotoAlternate />
