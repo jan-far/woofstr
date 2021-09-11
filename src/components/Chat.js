@@ -17,7 +17,6 @@ import {
   MoreVert,
 } from '@material-ui/icons';
 import { useHistory, useParams } from 'react-router-dom';
-import axios from 'axios';
 import useRoom from '../hooks/useRoom';
 import useChatMessages from '../hooks/useChatMessages';
 import { useGeoLocation } from '../hooks/useGeoLocation';
