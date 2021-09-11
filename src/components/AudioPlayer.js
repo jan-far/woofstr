@@ -3,6 +3,8 @@ import { PauseRounded, PlayArrowRounded } from '@material-ui/icons';
 import React, { useState, useRef, useEffect } from 'react';
 import './AudioPlayer.css';
 
+// BUG: AudioPlayer only renders loading spinner on mobile devices and emulators
+// (works fine on chrome dev tools > mobile view)
 export default function AudioPlayer({
   audioID,
   setAudioID,
