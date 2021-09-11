@@ -11,6 +11,3 @@ AddLocation Pin, upper right next to add Photo, opens location preview with pin 
 Save Mapbox canvas as image: https://stackoverflow.com/questions/42483449/mapbox-gl-js-export-map-to-png-or-pdf
 
 Get Mapbox Image with pin https://docs.mapbox.com/api/maps/static-images/#overlay-options
-
-Mapbox API Key:
-pk.eyJ1IjoiYnViYmFzZGFkIiwiYSI6ImNrdGZ2bGV4NDBjMWgycHJ0cDE1Z3A2OW4ifQ.lHwOcjL8X-YucjD_U6jt3Q

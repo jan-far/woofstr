@@ -32,7 +32,6 @@ export default function Chat({ user, page }) {
   const [audioID, setAudioID] = useState('');
   const [openMenu, setOpenMenu] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [location, setLocation] = useState(null);
 
   const { roomID } = useParams();
   const history = useHistory();
@@ -48,13 +47,9 @@ export default function Chat({ user, page }) {
 
   useEffect(() => {
     scrollToBottom();
-  }, []);
+  }, [messages]);
 
   const geoLocation = useGeoLocation();
-
-  // useEffect(() => {
-  //   setLocation(geoLocation);
-  // }, [geoLocation]);
 
   function onChange(event) {
     setInput(event.target.value);
