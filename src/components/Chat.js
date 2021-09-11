@@ -101,7 +101,6 @@ export default function Chat({ user, page }) {
         .add(newMessage);
 
       if (image) {
-        // BUG: next line failing when map is previewed because image parameter 'is not a blob or file'
         new Compressor(image, {
           quality: 0.8,
           maxWidth: 1920,
@@ -175,33 +174,31 @@ export default function Chat({ user, page }) {
     }
   }
 
+  const getUrlExtension = (url) => {
+    return url.split(/[#?]/)[0].split('.').pop().trim();
+  };
+
+  const onImageEdit = async (imgUrl) => {
+    const imgExt = getUrlExtension(imgUrl);
+    const response = await fetch(imgUrl);
+    const blob = await response.blob();
+    const file = new File([blob], 'locationImage.' + imgExt, {
+      type: blob.type,
+    });
+
+    setImage(file);
+    setPreviewSrc(response.url);
+  };
+
   function previewLocation(event) {
     event.preventDefault();
-
     // will only work in localhost:3000:
     const MAPBOX_API_KEY =
       'pk.eyJ1IjoiYnViYmFzZGFkIiwiYSI6ImNrdGZ2bGV4NDBjMWgycHJ0cDE1Z3A2OW4ifQ.lHwOcjL8X-YucjD_U6jt3Q';
     // baseUrl based on https://docs.mapbox.com/api/maps/static-images/#overlay-options
     const baseUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson(%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B${geoLocation.longitude}%2C${geoLocation.latitude}%5D%7D)/${geoLocation.longitude},${geoLocation.latitude},15/500x300?access_token=${MAPBOX_API_KEY}`;
 
-    axios
-      .get(baseUrl)
-      .then((response) => {
-        console.log(
-          '🚀 ~ file: Chat.js ~ line 192 ~ .then ~ response',
-          response
-        );
-        let myImage = new Image();
-        myImage.src = response.config.url; // tried response.data which looks like a blob
-        myImage.alt = 'location map';
-        // failing silently here because my myImage "is not a file or blob" when used later in sendMessage
-        // here we need to make sure myImage is an image.
-        setImage(myImage); // tried response.data which looks like a blob
-        setPreviewSrc(response.config.url); // works, image previews
-      })
-      .catch(function (error) {
-        console.error('error fetching map: ', error);
-      });
+    onImageEdit(baseUrl);
   }
 
   return (
