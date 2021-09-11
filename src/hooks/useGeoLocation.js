@@ -42,7 +42,13 @@ export const useGeoLocation = (watch = false, settings = defaultSettings) => {
     }
 
     return () => watcher && navigator.geolocation.clearWatch(watcher);
-  }, [settings.enableHighAccuracy, settings.timeout, settings.maximumAge]);
+  }, [
+    settings.enableHighAccuracy,
+    settings.timeout,
+    settings.maximumAge,
+    settings,
+    watch,
+  ]);
 
   return { ...position, error };
 };

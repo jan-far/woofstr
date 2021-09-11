@@ -189,8 +189,9 @@ export default function Chat({ user, page }) {
           '🚀 ~ file: Chat.js ~ line 192 ~ .then ~ response',
           response
         );
-        let myImage = new Image();
+        let myImage = new Image(); // tried response.data which looks like a blob
         myImage.src = baseUrl;
+        // failing here because my image "is not a file or blob" when saved in sendMessage
         setImage(myImage);
         setPreviewSrc(response.config.url);
       })
