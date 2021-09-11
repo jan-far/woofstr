@@ -15,7 +15,7 @@ export default function ChatMessages({
       return (
         <div
           key={message.id}
-          className={`chat__message ${isSender ? 'chat__message--sender' : ''}`}
+          className={`chat__message ${isSender ? 'chat__sender' : ''}`}
         >
           <span className="chat__name">{message.name}</span>
           {message.imageUrl === 'uploading' ? (
