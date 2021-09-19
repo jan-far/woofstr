@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core';
 import './Login.css';
 import { auth, provider } from '../firebase';
+import { motion } from 'framer-motion';
 import BackgroundImage from '../bg02.jpg';
 
 export default function Login() {
@@ -17,7 +18,12 @@ export default function Login() {
           backgroundPosition: 'center',
         }}
       >
-        <div className="login__container">
+        <motion.div
+          className="login__container"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <img
             src="../login-logo.png"
             alt="Logo"
@@ -27,7 +33,7 @@ export default function Login() {
             <h3>Chat with Dog Owners near You</h3>
           </div>
           <Button onClick={login}>Sign in with Google</Button>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
