@@ -86,15 +86,15 @@
 }
 
 .audioplayer__alt .audioplayer__slider::-webkit-slider-thumb {
-  background: #06d755;
+  background: #800080;
 }
 
 .audioplayer__alt .audioplayer__slider::-moz-range-thumb {
-  background: #06d755;
+  background: #800080;
 }
 
 .audioplayer__alt .audioplayer__slider--played {
-  background: #06d755;
+  background: #800080;
 }
 
 .audioplayer__played .audioplayer__slider::-webkit-slider-thumb {
