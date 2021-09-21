@@ -177,16 +177,20 @@ export default function Chat({ user, page }) {
     return url.split(/[#?]/)[0].split('.').pop().trim();
   };
 
-  const onImageEdit = async (imgUrl) => {
-    const imgExt = getUrlExtension(imgUrl);
-    const response = await fetch(imgUrl);
-    const blob = await response.blob();
-    const file = new File([blob], 'locationImage.' + imgExt, {
-      type: blob.type,
-    });
+  const onMapPreview = async (imgUrl) => {
+    try {
+      const imgExt = getUrlExtension(imgUrl);
+      const response = await fetch(imgUrl);
+      const blob = await response.blob();
+      const file = new File([blob], 'locationImage.' + imgExt, {
+        type: blob.type,
+      });
 
-    setImage(file);
-    setPreviewSrc(response.url);
+      setImage(file);
+      setPreviewSrc(response.url);
+    } catch (error) {
+      console.error('onMapPreview error: ', error);
+    }
   };
 
   function previewLocation(event) {
@@ -197,7 +201,7 @@ export default function Chat({ user, page }) {
     // baseUrl based on https://docs.mapbox.com/api/maps/static-images/#overlay-options
     // const baseUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson(%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B${geoLocation.longitude}%2C${geoLocation.latitude}%5D%7D)/${geoLocation.longitude},${geoLocation.latitude},15/500x300?access_token=${MAPBOX_API_KEY}`;
     const baseUrlTwo = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+800080(${geoLocation.longitude},${geoLocation.latitude})/${geoLocation.longitude},${geoLocation.latitude},15/500x300?access_token=${MAPBOX_API_KEY}`;
-    onImageEdit(baseUrlTwo);
+    onMapPreview(baseUrlTwo);
   }
 
   return (
