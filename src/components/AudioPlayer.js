@@ -3,8 +3,6 @@ import { PauseRounded, PlayArrowRounded } from '@material-ui/icons';
 import React, { useState, useRef, useEffect } from 'react';
 import './AudioPlayer.css';
 
-// BUG: AudioPlayer only renders loading spinner on mobile devices and emulators
-// (works fine on chrome dev tools > mobile view)
 export default function AudioPlayer({
   audioID,
   setAudioID,
@@ -24,12 +22,68 @@ export default function AudioPlayer({
   const audio = useRef(new Audio(audioUrl));
   const interval = useRef();
   const isUploading = useRef(audioUrl === 'uploading');
+  const canRetryOnError = useRef(false);
+  const totalRetries = useRef(0);
+
+  const isTesting = useRef(false);
 
   React.useEffect(() => {
-    if (isUploading.current && audioUrl !== 'uploading') {
-      audio.current = new Audio(audioUrl);
-      audio.current.load();
-      setIsLoaded(true);
+    if (isTesting.current || audioUrl !== 'uploading') {
+      const startAudioLoad = () => {
+        try {
+          audio.current = new Audio(audioUrl);
+          audio.current.addEventListener('loadstart', () => {
+            console.log('loadstart');
+          });
+          audio.current.addEventListener('loadedmetadata', () => {
+            getAudioDuration(audio.current).then((duration) => {
+              setIsMetaDataLoaded(true);
+              canRetryOnError.current = true;
+            });
+          });
+          audio.current.addEventListener('loadeddata', () => {
+            console.log('loadeddata');
+          });
+          audio.current.addEventListener('canplaythrough', () => {
+            if (!totalDuration.current) {
+              setIsMediaLoaded(true);
+              const time = formatTime(audio.current.duration);
+              totalDuration.current = time;
+              setDuration(totalDuration.current);
+            }
+          });
+          audio.current.addEventListener('ended', () => {
+            clearInterval(interval.current);
+            setDuration(totalDuration.current);
+            setSliderValue(0);
+            setPlaying(false);
+          });
+          audio.current.addEventListener('error', (err) => {
+            console.error('Error in loading audio');
+            console.error(err);
+            retryIfPossible();
+          });
+          audio.current.load();
+          setIsLoaded(true);
+        } catch (e) {
+          console.error(e);
+          alert('Exception: ' + e.message);
+        }
+      };
+      const retryIfPossible = () => {
+        if (canRetryOnError.current) {
+          if (totalRetries.current < 2) {
+            setIsLoaded(false);
+            setIsMetaDataLoaded(false);
+            audio.current.remove();
+            setTimeout(() => {
+              startAudioLoad();
+              totalRetries.current = totalRetries.current + 1;
+            }, 1500);
+          }
+        }
+      };
+      startAudioLoad();
     } else if (isUploading.current === false) {
       setIsLoaded(true);
     }
@@ -37,44 +91,18 @@ export default function AudioPlayer({
 
   function getAudioDuration(media) {
     return new Promise((resolve) => {
-      media.onloadedmetadata = () => {
-        media.currentTime = Number.MAX_SAFE_INTEGER;
-        media.ontimeupdate = () => {
-          media.ontimeupdate = () => {};
-          media.currentTime = 0.1;
-          resolve(media.duration);
-        };
+      media.currentTime = Number.MAX_SAFE_INTEGER;
+      media.ontimeupdate = () => {
+        media.ontimeupdate = () => {};
+        media.currentTime = 0.1;
+        resolve(media.duration);
       };
     });
   }
 
-  useEffect(() => {
-    if (isLoaded) {
-      getAudioDuration(audio.current).then(() => {
-        setIsMetaDataLoaded(true);
-      });
-    }
-  }, [isLoaded]);
+  useEffect(() => {}, [isLoaded]);
 
-  useEffect(() => {
-    if (isMetaDataLoaded) {
-      audio.current.addEventListener('canplaythrough', () => {
-        if (!totalDuration.current) {
-          setIsMediaLoaded(true);
-          const time = formatTime(audio.current.duration);
-          totalDuration.current = time;
-          setDuration(totalDuration.current);
-        }
-      });
-
-      audio.current.addEventListener('ended', () => {
-        clearInterval(interval.current);
-        setDuration(totalDuration.current);
-        setSliderValue(0);
-        setPlaying(false);
-      });
-    }
-  }, [isMetaDataLoaded]);
+  useEffect(() => {}, [isMetaDataLoaded]);
 
   useEffect(() => {
     if (audioID !== id) {
@@ -160,6 +188,17 @@ export default function AudioPlayer({
         </div>
       </div>
       <span className="chat__timestamp audioplayer__time">{duration}</span>
+      <div
+        style={{
+          fontSize: '12px',
+          marginTop: '10px',
+          textDecoration: 'underline',
+        }}
+      >
+        <a href={audioUrl} target="_blank" rel="noreferrer">
+          Direct link
+        </a>
+      </div>
     </>
   );
 }
