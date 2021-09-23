@@ -46,11 +46,6 @@
   transform: translateX(-50%) translateY(-50%);
 }
 
-.send__btn svg:nth-child(1) {
-  opacity: 0;
-  transform: translateX(-48%) translateY(-50%);
-}
-
 .chat__footer > .MuiSvgIcon-root {
   color: gray;
   box-sizing: content-box;
