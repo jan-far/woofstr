@@ -1,5 +1,4 @@
 import { CircularProgress } from '@material-ui/core';
-import AudioPlayer from './AudioPlayer';
 
 export default function ChatMessages({
   messages,
@@ -29,19 +28,7 @@ export default function ChatMessages({
               <img src={message.imageUrl} alt={message.name} />
             </div>
           ) : null}
-
-          {message.audioName ? (
-            <AudioPlayer
-              sender={isSender}
-              roomID={roomID}
-              id={message.id}
-              audioUrl={message.audioUrl}
-              audioID={audioID}
-              setAudioID={setAudioID}
-            />
-          ) : (
-            <span className="chat__message--message">{message.message}</span>
-          )}
+          <span className="chat__message--message">{message.message}</span>
           <span className="chat__timestamp">{message.time}</span>
         </div>
       );
