@@ -1,6 +1,7 @@
 .app {
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  place-items: flex-start;
   background-color: white;
   height: 100vh;
   transform-origin: 0% 0%;

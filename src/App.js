@@ -4,6 +4,8 @@ import useWindowSize from './hooks/useWindowSize';
 import Login from './components/Login';
 import Sidebar from './components/Sidebar';
 import Chat from './components/Chat';
+import About from './components/About';
+import Contact from './components/Contact';
 import useAuthUser from './hooks/useAuthUser';
 import { Route, Redirect } from 'react-router-dom';
 import BackgroundImage from './bg02.jpg';
@@ -13,7 +15,13 @@ export default function App() {
   const user = useAuthUser();
 
   if (!user) {
-    return <Login />;
+    return (
+      <>
+        <Route exact path="/" component={Login} />
+        <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
+      </>
+    );
   }
   return (
     <div className="app" style={{ ...page }}>
