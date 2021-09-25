@@ -1,4 +1,5 @@
 import { CircularProgress } from '@material-ui/core';
+import usePrevious from '../hooks/usePrevious';
 
 export default function ChatMessages({
   messages,
@@ -7,6 +8,11 @@ export default function ChatMessages({
   audioID,
   setAudioID,
 }) {
+  const previousMessages = usePrevious(messages);
+  if (previousMessages?.length < messages?.length) {
+    const sound = new Audio('../../notification.wav');
+    sound.play();
+  }
   if (messages) {
     return messages.map((message) => {
       const isSender = message.uid === user.uid;

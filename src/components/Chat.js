@@ -56,11 +56,8 @@ export default function Chat({ user, page }) {
 
   async function sendMessage(event) {
     event.preventDefault();
-    var sound = new Audio('../../notification.wav');
     if (input.trim() || (input === '' && image)) {
       setInput('');
-      sound.play();
-
       if (image) {
         closePreview();
       }
