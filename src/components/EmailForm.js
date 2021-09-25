@@ -26,6 +26,7 @@ const EmailInput = styled.input`
   border: none;
   border-radius: 4px;
   height: 2em;
+  padding: 0px 4px;
 `;
 
 const EmailMessageContainer = styled.div`
@@ -43,6 +44,7 @@ const EmailMessage = styled.textarea`
   height: 5em;
   border-radius: 4px;
   border: none;
+  padding: 0px 4px;
 `;
 
 const SendButtonContainer = styled.div`
