@@ -1,5 +1,6 @@
 import { Button } from '@material-ui/core';
 import './Login.css';
+import { Navbar } from './navbar';
 import { auth, provider } from '../firebase';
 import { motion } from 'framer-motion';
 import BackgroundImage from '../bg02.jpg';
@@ -11,6 +12,7 @@ export default function Login() {
 
   return (
     <div className="app">
+      <Navbar />
       <div
         className="login"
         style={{

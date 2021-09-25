@@ -3,6 +3,7 @@ import SidebarList from './SidebarList';
 import { Avatar, IconButton } from '@material-ui/core';
 import './Sidebar.css';
 import { auth, createTimestamp, db } from '../firebase';
+import { useHistory } from 'react-router-dom';
 import {
   Add,
   ExitToApp,
@@ -20,12 +21,14 @@ export default function Sidebar({ user, page }) {
   const rooms = useRooms();
   const users = useUsers(user);
   const chats = useChats(user);
+  const history = useHistory();
 
   const [menu, setMenu] = React.useState(1);
   const [searchResults, setSearchResults] = React.useState([]);
 
   function signOut() {
     auth.signOut();
+    history.push('/');
   }
 
   function createRoom() {
