@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import emailjs from 'emailjs-com';
-import styled from 'styled-components';
-import { useMediaQuery } from 'react-responsive';
-import { DeviceSize } from './responsive';
+import React, { useState } from "react";
+import emailjs from "emailjs-com";
+import styled from "styled-components";
+import { useMediaQuery } from "react-responsive";
+import { DeviceSize } from "./responsive";
 
 const EmailMobileFormContainer = styled.form`
   display: flex;
@@ -63,10 +63,42 @@ const SendButton = styled.button`
   height: 2em;
 `;
 
+const Form = ({ email, onEmailChange, onMessageChange, message, disabled, feedback }) => (
+  <>
+    <label>Email</label>
+    <EmailInput
+      type="email"
+      name="email"
+      id="email"
+      placeholder="your email address"
+      onChange={onEmailChange}
+      value={email}
+      required
+    />
+    <EmailMessageContainer>
+      <label>Message</label>
+      <EmailMessage
+        name="message"
+        id="message"
+        placeholder="enter your message here"
+        onChange={onMessageChange}
+        value={message}
+      ></EmailMessage>
+    </EmailMessageContainer>
+    <SendButtonContainer>
+      <SendButton type="submit" disabled={disabled}>
+        Send
+      </SendButton>
+    </SendButtonContainer>
+    <span>{feedback}</span>
+    <input type="hidden" name="form-name" value="woofstr-signup" />
+  </>
+);
+
 const EmailForm = () => {
-  const [feedback, setFeedback] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [feedback, setFeedback] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
 
@@ -81,27 +113,22 @@ const EmailForm = () => {
     };
 
     emailjs
-      .send(
-        'david@woofstr.com',
-        'template_90v52cz',
-        params,
-        'user_lQnsVPMdQthP4zZDhtJ6O'
-      )
+      .send("david@woofstr.com", "template_90v52cz", params, "user_lQnsVPMdQthP4zZDhtJ6O")
       .then(
         (result) => {
           setFeedback(`Nice - You're in!`);
           setTimeout(() => {
-            setFeedback('');
-            setEmail('');
-            setMessage('');
+            setFeedback("");
+            setEmail("");
+            setMessage("");
             setDisabled(false);
           }, 5000);
         },
         (error) => {
-          setFeedback('Message failed to send.');
+          setFeedback("Message failed to send.");
           setTimeout(() => {
-            setFeedback('');
-            setEmail('');
+            setFeedback("");
+            setEmail("");
           }, 4000);
         }
       );
@@ -109,7 +136,7 @@ const EmailForm = () => {
 
   const onEmailChange = (event) => {
     const newEmail = event.target.value;
-    setEmail(newEmail);
+    setEmail((prevState) => prevState + newEmail);
   };
 
   const onMessageChange = (event) => {
@@ -117,46 +144,18 @@ const EmailForm = () => {
     setMessage(newMessage);
   };
 
-  const EmailForm = () => (
-    <>
-      <label>Email</label>
-      <EmailInput
-        type="email"
-        name="email"
-        id="email"
-        placeholder="your email address"
-        onChange={onEmailChange}
-        value={email}
-        required
-      />
-      <EmailMessageContainer>
-        <label>Message</label>
-        <EmailMessage
-          name="message"
-          id="message"
-          placeholder="enter your message here"
-          onChange={onMessageChange}
-          value={message}
-        ></EmailMessage>
-      </EmailMessageContainer>
-      <SendButtonContainer>
-        <SendButton type="submit" disabled={disabled}>
-          Send
-        </SendButton>
-      </SendButtonContainer>
-      <span>{feedback}</span>
-      <input type="hidden" name="form-name" value="woofstr-signup" />
-    </>
-  );
   return (
     <>
       {isMobile ? (
-        <EmailMobileFormContainer
-          id="signup-form"
-          onSubmit={submitRequest}
-          className="email__form"
-        >
-          <EmailForm />
+        <EmailMobileFormContainer id="signup-form" onSubmit={submitRequest} className="email__form">
+          <Form
+            email={email}
+            onEmailChange={onEmailChange}
+            message={message}
+            onMessageChange={onMessageChange}
+            feedback={feedback}
+            disabled={disabled}
+          />
         </EmailMobileFormContainer>
       ) : (
         <EmailTabletUpFormContainer
@@ -164,7 +163,14 @@ const EmailForm = () => {
           onSubmit={submitRequest}
           className="email__form"
         >
-          <EmailForm />
+          <Form
+            email={email}
+            onEmailChange={onEmailChange}
+            message={message}
+            onMessageChange={onMessageChange}
+            feedback={feedback}
+            disabled={disabled}
+          />
         </EmailTabletUpFormContainer>
       )}
     </>

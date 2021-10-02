@@ -11,14 +11,24 @@
 .app {
   display: grid;
   place-items: center;
-  background-color: white;
   height: 100vh;
   transform-origin: 0% 0%;
   position: relative;
+  overflow: hidden;
+}
+
+.app::before {
+  content: "";
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: -5;
+  background-size: 100%;
+  background: url("./bg02.jpg") no-repeat center center;
+  animation: zoom infinite alternate ease-in-out 5s;
 }
 
 .app__body {
-  background-color: #ededed;
   display: flex;
   height: 100%;
   width: 100%;
@@ -26,6 +36,15 @@
   overflow: hidden;
   position: relative;
   border-top: 1px solid lightgrey;
+}
+
+@keyframes zoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
 }
 
 .loader__container {

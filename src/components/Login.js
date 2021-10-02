@@ -3,7 +3,6 @@ import './Login.css';
 import { Navbar } from './navbar';
 import { auth, provider } from '../firebase';
 import { motion } from 'framer-motion';
-import BackgroundImage from '../bg02.jpg';
 
 export default function Login() {
   function login() {
@@ -15,10 +14,6 @@ export default function Login() {
       <Navbar />
       <div
         className="login"
-        style={{
-          backgroundImage: `url(${BackgroundImage})`,
-          backgroundPosition: 'center',
-        }}
       >
         <motion.div
           className="login__container"

@@ -8,7 +8,6 @@ import About from './components/About';
 import Contact from './components/Contact';
 import useAuthUser from './hooks/useAuthUser';
 import { Route, Redirect } from 'react-router-dom';
-import BackgroundImage from './bg02.jpg';
 
 export default function App() {
   const page = useWindowSize();
@@ -28,10 +27,6 @@ export default function App() {
       <Redirect to={page.isMobile ? '/chats' : '/'} />
       <div
         className="app__body"
-        style={{
-          backgroundImage: `url(${BackgroundImage})`,
-          backgroundPosition: 'center',
-        }}
       >
         <Sidebar user={user} page={page} />
         <Route path="/room/:roomID">

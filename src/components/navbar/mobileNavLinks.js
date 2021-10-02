@@ -56,9 +56,9 @@ export function MobileNavLinks(props) {
           <LinkItem>
             <StyledLink to="/about">About</StyledLink>
           </LinkItem>
-          {/* <LinkItem>
+          <LinkItem>
             <StyledLink to="/contact">Contact</StyledLink>
-          </LinkItem> */}
+          </LinkItem>
           <Marginer />
         </LinksWrapper>
       )}
